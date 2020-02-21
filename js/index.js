@@ -22,7 +22,7 @@ function createTemplate(HTMLString) {
 }
 
 function renderShowsList(shows, category) {
-  $showsList.children[0].remove();
+  $showsList.innerHTML = '';
   shows.forEach(show => {
     const HTMLString = showItemTemplate(show, category);
     const showElement = createTemplate(HTMLString);
@@ -33,20 +33,27 @@ function renderShowsList(shows, category) {
 }
 
 function filterShowsByCategory(category) {
-  let showsByCategory = shows.filter(show => show.genres.includes(category));
-  console.log('showsByCategory:::: ', showsByCategory);
+  return shows.filter(show => show.genres.includes(category));
+}
+
+function getRandomShows(shows) {
+  let randomShows = [];
+  for (let i = 0; i < 5; i++) {
+    randomShows.push(shows[Math.floor(Math.random() * shows.length)]);
+  }
+  return randomShows;
+}
+
+function getShowsToRender() {
+  selectedCategory = $category.options[$category.selectedIndex].value;
+  console.log('selectedCategory:::: ', selectedCategory);
+  let showsByCategory = getRandomShows(filterShowsByCategory(selectedCategory));
   renderShowsList(showsByCategory, category);
 }
 
-function onChangeCategory(e) {
-  selectedCategory = $category.options[$category.selectedIndex].value;
-  console.log('selectedCategory:::: ', selectedCategory);
-  filterShowsByCategory(selectedCategory);
-}
-
-$category.addEventListener('change', e => onChangeCategory(e));
+$category.addEventListener('change', e => getShowsToRender(e));
 
 (function load() {
   console.log('$category:::: ', $category);
-  onChangeCategory();
+  getShowsToRender();
 })();
