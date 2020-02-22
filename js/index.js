@@ -1,11 +1,11 @@
-// import { shows } from '../mock-api.js';
+import { shows } from '../mock-api.js';
 
 const API_URL = 'http://api.tvmaze.com/shows';
 
 const $category = document.getElementById('category');
 const $button = document.getElementById('search');
 const $showsList = document.getElementById('shows-list');
-let shows = [];
+// let shows = [];
 let selectedCategory = '';
 
 async function getShows() {
@@ -76,11 +76,11 @@ $button.addEventListener('click', e => getShowsToRender(e));
 
 (async function load() {
   console.log('$category:::: ', $category);
-  try {
-    shows = await getShows();
-  } catch (error) {
-    $showsList.innerHTML = '';
-    alert(error.message);
-  }
+  // try {
+  //   shows = await getShows();
+  // } catch (error) {
+  //   $showsList.innerHTML = '';
+  //   alert(error.message);
+  // }
   getShowsToRender();
 })();
