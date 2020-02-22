@@ -1,17 +1,23 @@
 import { shows } from '../mock-api.js';
 
 const $category = document.getElementById('category');
+const $button = document.getElementById('search');
 const $showsList = document.getElementById('shows-list');
 let selectedCategory = '';
 
 function showItemTemplate(show, category) {
   return `<div class="shows-list__item" data-id="${show.id}" data-category="${category}">
+      <div class="shows-list__description">
+        <h4 style="font-weight:bold" class="shows-list__name">
+          ${show.name}
+        </h4>
+        <span class="shows-list__name">
+          ${show.rating.average}
+        </span>
+      </div>
       <div class="shows-list__image">
         <img src="${show.image.medium}">
       </div>
-      <h4 class="shows-list__name">
-        ${show.name}
-      </h4>
     </div>`;
 }
 
@@ -52,6 +58,7 @@ function getShowsToRender() {
 }
 
 $category.addEventListener('change', e => getShowsToRender(e));
+$button.addEventListener('click', e => getShowsToRender(e));
 
 (function load() {
   console.log('$category:::: ', $category);
