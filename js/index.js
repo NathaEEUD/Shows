@@ -1,9 +1,23 @@
-import { shows } from '../mock-api.js';
+// import { shows } from '../mock-api.js';
+
+const API_URL = 'http://api.tvmaze.com/shows';
 
 const $category = document.getElementById('category');
 const $button = document.getElementById('search');
 const $showsList = document.getElementById('shows-list');
+let shows = [];
 let selectedCategory = '';
+
+async function getShows() {
+  const response = await fetch(API_URL);
+  const shows = await response.json();
+
+  if (shows.length > 0) {
+    return shows;
+  }
+
+  throw new Error('No se encontró ningún resultado');
+}
 
 function showItemTemplate(show, category) {
   return `<div class="shows-list__item" data-id="${show.id}" data-category="${category}">
@@ -60,7 +74,13 @@ function getShowsToRender() {
 $category.addEventListener('change', e => getShowsToRender(e));
 $button.addEventListener('click', e => getShowsToRender(e));
 
-(function load() {
+(async function load() {
   console.log('$category:::: ', $category);
+  try {
+    shows = await getShows();
+  } catch (error) {
+    $showsList.innerHTML = '';
+    alert(error.message);
+  }
   getShowsToRender();
 })();
